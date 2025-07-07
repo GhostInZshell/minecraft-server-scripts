@@ -54,7 +54,7 @@ while true; do
     # Run backup if user wants to
     if [[ "$run_backup" =~ ^[yY]$ ]]; then
         echo "Running backup script..."
-        ~/paper_backup.sh
+        ~/backup.sh
     else
         echo "Skipping backup."
     fi
