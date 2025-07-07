@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SESSION="Minecraft"
+SESSION="minecraft"
 
 # Function to send a command to the tmux session
 send_to_minecraft() {
@@ -14,23 +14,23 @@ if ! tmux has-session -t "$SESSION" 2>/dev/null; then
 fi
 
 # Countdown broadcasts
-send_to_minecraft "say §6Server will restart in 5 minutes! §7Please find a safe spot."
+send_to_minecraft "say §6Server will restart in 5 minutes! §lPlease find a safe spot."
 sleep 240  # 4 minutes
 
-send_to_minecraft "say §eServer will restart in 1 minute!"
+send_to_minecraft "say §cServer will restart in 1 minute!"
 sleep 50
 
-send_to_minecraft "say §cServer restarting in 10 seconds..."
+send_to_minecraft "say §4Server restarting in 10 seconds..."
 sleep 5
-send_to_minecraft "say §c5..."
+send_to_minecraft "say §45..."
 sleep 1
-send_to_minecraft "say §c4..."
+send_to_minecraft "say §44..."
 sleep 1
-send_to_minecraft "say §c3..."
+send_to_minecraft "say §43..."
 sleep 1
-send_to_minecraft "say §c2..."
+send_to_minecraft "say §42..."
 sleep 1
-send_to_minecraft "say §c1..."
+send_to_minecraft "say §41..."
 sleep 1
 
 # Stop the server
