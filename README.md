@@ -8,7 +8,7 @@ This repository contains scripts used to manage my Paper Minecraft server hosted
 - `backup.sh` – Backs up the server world using Duplicity
 - `restore_paper.sh` – Provides a dry-run restore menu for backups
 - `join_notifier.sh` – Sends Discord notifications when players join
-- `monitor_minecraft.sh` – Logs resource usage for monitoring
+- `monitor.sh` – Logs resource usage for monitoring
 - `start.sh` – Starts the paper *.jar server (placed in ~/paper_minecraft)
 
 ## Notes
