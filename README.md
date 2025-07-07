@@ -10,6 +10,7 @@ This repository contains scripts used to manage my Paper Minecraft server hosted
 - `join_notifier.sh` – Sends Discord notifications when players join
 - `monitor.sh` – Logs resource usage for monitoring
 - `start.sh` – Starts the paper *.jar server (placed in ~/paper_minecraft)
+- `graceful_restart.sh` – Sends timed in-game restart warnings and gracefully stops the server
 
 ## Notes
 

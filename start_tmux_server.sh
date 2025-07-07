@@ -19,7 +19,7 @@ tmux split-window -v -t "$SESSION":0.1
 tmux split-window -v -t "$SESSION":0.1
 
 # Pane 1 (top right): monitor script
-tmux send-keys -t "$SESSION":0.1 'cd ~ && ./monitor_minecraft.sh' C-m
+tmux send-keys -t "$SESSION":0.1 'cd ~ && ./monitor.sh' C-m
 
 # Pane 2 (middle right): join notifier
 tmux send-keys -t "$SESSION":0.2 'cd ~ && ./join_notifier.sh' C-m
