@@ -18,5 +18,5 @@ while read -r line; do
     curl -H "Content-Type: application/json" \
         -X POST \
         -d "{\"content\":\"$player joined the Minecraft server!\"}" \
-        REMOVED_DISCORD_WEBHOOK
+	"$DISCORD_WEBHOOK"
 done
