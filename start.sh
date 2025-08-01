@@ -8,14 +8,31 @@ trap 'echo "Stopping server loop..."; exit 0' INT
 
 echo "Detected JAR: $PAPER_JAR"
 
+# Allocate RAM
+TOTAL_MEM_MB=$(free -m | awk '/^Mem:/{print $2}')
+echo "Total RAM Detected: $TOTAL_MEM_MB MB" | tee -a server-restarts.log
+
+if [ "$TOTAL_MEM_MB" -ge 3900 ]; then
+  XMS="2G"
+  XMX="3G"
+elif [ "$TOTAL_MEM_MB" -ge 1900 ]; then
+  XMS="1G"
+  XMX="1512M"
+else
+  XMS="512MB"
+  XMX="1GB"
+fi
+
+echo "Allocating: Min $XMS, Max $XMX" | tee -a server-restarts.log
+
 # Log server start
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Server started..." >> server-restarts.log
 
 # Run server loop
 while true; do
     java \
-	-Xms2G \
-  	-Xmx3G \
+	-Xms$XMS \
+  	-Xmx$XMX \
  	-XX:+AlwaysPreTouch \
   	-XX:+DisableExplicitGC \
   	-XX:+ParallelRefProcEnabled \
