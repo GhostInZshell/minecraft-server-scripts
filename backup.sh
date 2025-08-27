@@ -8,8 +8,8 @@ echo "[*] Starting backup at $TS..."
 
 duplicity --no-encryption --progress backup "$SRC" file://"$DEST"
 
-echo "[*] Removing backups older than 30 days..."
+echo "[*] Removing backups older than 90 days..."
 
-duplicity remove-older-than 60D --force --no-encryption --progress file://"$DEST"
+duplicity remove-older-than 90D --force --no-encryption --progress file://"$DEST"
 
 echo "[✓] Backup complete."
