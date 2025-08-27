@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+###### This file is version controlled in git ######
 
 # Get latest paper jar
 PAPER_JAR=$(ls -1r paper-* | head -1)

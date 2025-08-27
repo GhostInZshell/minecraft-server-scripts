@@ -1,4 +1,5 @@
 #!/bin/bash
+###### This file is version controlled in git ######
 
 # Adjust path to your actual Paper server's log file
 LOG_FILE="$HOME/paper_minecraft/logs/latest.log"

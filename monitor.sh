@@ -1,4 +1,5 @@
 #!/bin/bash
+###### This file is version controlled in git ######
 
 LOGFILE="$HOME/minecraft_usage.log"
 

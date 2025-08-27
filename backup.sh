@@ -1,4 +1,5 @@
 #!/bin/bash
+###### This file is version controlled in git ######
 
 SRC="$HOME/paper_minecraft"
 DEST="$HOME/paper_backups_duplicity"

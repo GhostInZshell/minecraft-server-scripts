@@ -1,4 +1,5 @@
 #!/bin/bash
+###### This file is version controlled in git ######
 
 SESSION="minecraft"
 
