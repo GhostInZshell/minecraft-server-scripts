@@ -12,16 +12,16 @@ echo "Detected JAR: $PAPER_JAR"
 TOTAL_MEM_MB=$(free -m | awk '/^Mem:/{print $2}')
 echo "Total RAM Detected: $TOTAL_MEM_MB MB" | tee -a server-restarts.log
 
-if [ "$TOTAL_MEM_MB" -ge 3900 ]; then
-  XMS="2G"
-  XMX="3G"
-elif [ "$TOTAL_MEM_MB" -ge 1900 ]; then
-  XMS="1G"
-  XMX="1512M"
-else
-  XMS="512MB"
-  XMX="1GB"
+# Leave 500 MB for the OS + overhead
+XMX_MB=$((TOTAL_MEM_MB - 500))
+
+# Cap XMX to avoid absurd allocations
+if [ "$XMX_MB" -lt 512 ]; then
+  XMX_MB=512
 fi
+
+XMS="512M"
+XMX="${XMX_MB}M"
 
 echo "Allocating: Min $XMS, Max $XMX" | tee -a server-restarts.log
 
