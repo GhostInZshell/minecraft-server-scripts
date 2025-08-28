@@ -14,7 +14,7 @@ TOTAL_MEM_MB=$(free -m | awk '/^Mem:/{print $2}')
 echo "Total RAM Detected: $TOTAL_MEM_MB MB" | tee -a server-restarts.log
 
 # Leave 500 MB for the OS + overhead
-XMX_MB=$((TOTAL_MEM_MB - 500))
+XMX_MB=$((TOTAL_MEM_MB - 600))
 
 # Cap XMX to avoid absurd allocations
 if [ "$XMX_MB" -lt 512 ]; then
