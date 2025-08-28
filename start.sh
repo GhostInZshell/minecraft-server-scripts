@@ -16,11 +16,11 @@ PAPER_JAR=$(ls -1r paper-* | head -1)
 # Trap INT signal to stop server loop
 trap 'echo "Stopping server loop..."; exit 0' INT
 
-echo "${RED}Detected JAR: $PAPER_JAR${RESET}"
+echo -e "${RED}Detected JAR: $PAPER_JAR${RESET}"
 
 # Allocate RAM
 TOTAL_MEM_MB=$(free -m | awk '/^Mem:/{print $2}')
-echo "${YLW}Total RAM Detected: $TOTAL_MEM_MB MB${RESET}" | tee -a server-restarts.log
+echo -e "${YLW}Total RAM Detected: $TOTAL_MEM_MB MB${RESET}" | tee -a server-restarts.log
 
 # Leave 500 MB for the OS + overhead
 XMX_MB=$((TOTAL_MEM_MB - 600))
@@ -33,7 +33,7 @@ fi
 XMS="512M"
 XMX="${XMX_MB}M"
 
-echo "${GRN}Allocating: Min $XMS, ${RED}Max $XMX"${RESET} | tee -a server-restarts.log
+echo -e "${GRN}Allocating: Min $XMS, ${RED}Max $XMX"${RESET} | tee -a server-restarts.log
 
 # Log server start
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Server started..." >> server-restarts.log
@@ -73,7 +73,7 @@ while true; do
     echo "Checking disk space before backup..."
     df -h /
 
-    read -t 10 -rp "${BLD}Do you want to run a full backup before restarting? (Y/n) ${RESET}" run_backup
+    read -t 10 -rp "Do you want to run a full backup before restarting? (Y/n) " run_backup
 
     # Default to 'y' if no input (or if user just hits enter)
     run_backup=${run_backup:-y}
@@ -83,7 +83,7 @@ while true; do
         echo "Running backup script..."
         ~/backup.sh
     else
-        echo "${YLW}Skipping backup.${RESET}"
+        echo -e "${YLW}Skipping backup.${RESET}"
     fi
 
     # Log server restart

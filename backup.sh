@@ -13,12 +13,12 @@ SRC="$HOME/paper_minecraft"
 DEST="$HOME/paper_backups_duplicity"
 TS=$(date +'%Y-%m-%d_%H-%M-%S')
 
-echo "[${YLW}*${RESET}] Starting backup at $TS..."
+echo -e "[${YLW}*${RESET}] Starting backup at $TS..."
 
 duplicity --no-encryption --progress backup "$SRC" file://"$DEST"
 
-echo "[${YLW}*${RESET}] Removing backups older than 90 days..."
+echo -e "[${YLW}*${RESET}] Removing backups older than 90 days..."
 
 duplicity remove-older-than 90D --force --no-encryption --progress file://"$DEST"
 
-echo "[${GRN}✓${RESET}] Backup complete."
+echo -e "[${GRN}✓${RESET}] Backup complete."
