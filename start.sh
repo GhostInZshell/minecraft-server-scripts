@@ -1,17 +1,26 @@
 #!/usr/bin/env bash
 ###### This file is version controlled in git ######
 
+# Colors
+YLW="\e[33m"
+GRN="\e[32m"
+RED="\e[31m"
+CYN="\e[36m"
+BLD="\e[1m"
+RESET="\e[0m"
+
+
 # Get latest paper jar
 PAPER_JAR=$(ls -1r paper-* | head -1)
 
 # Trap INT signal to stop server loop
 trap 'echo "Stopping server loop..."; exit 0' INT
 
-echo "Detected JAR: $PAPER_JAR"
+echo "${RED}Detected JAR: $PAPER_JAR${RESET}"
 
 # Allocate RAM
 TOTAL_MEM_MB=$(free -m | awk '/^Mem:/{print $2}')
-echo "Total RAM Detected: $TOTAL_MEM_MB MB" | tee -a server-restarts.log
+echo "${YLW}Total RAM Detected: $TOTAL_MEM_MB MB${RESET}" | tee -a server-restarts.log
 
 # Leave 500 MB for the OS + overhead
 XMX_MB=$((TOTAL_MEM_MB - 600))
@@ -24,7 +33,7 @@ fi
 XMS="512M"
 XMX="${XMX_MB}M"
 
-echo "Allocating: Min $XMS, Max $XMX" | tee -a server-restarts.log
+echo "${GRN}Allocating: Min $XMS, ${RED}Max $XMX"${RESET} | tee -a server-restarts.log
 
 # Log server start
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Server started..." >> server-restarts.log
@@ -64,7 +73,7 @@ while true; do
     echo "Checking disk space before backup..."
     df -h /
 
-    read -t 10 -rp "Do you want to run a full backup before restarting? (Y/n) " run_backup
+    read -t 10 -rp "${BLD}Do you want to run a full backup before restarting? (Y/n) ${RESET}" run_backup
 
     # Default to 'y' if no input (or if user just hits enter)
     run_backup=${run_backup:-y}
@@ -74,7 +83,7 @@ while true; do
         echo "Running backup script..."
         ~/backup.sh
     else
-        echo "Skipping backup."
+        echo "${YLW}Skipping backup.${RESET}"
     fi
 
     # Log server restart
