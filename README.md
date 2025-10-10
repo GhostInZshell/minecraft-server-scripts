@@ -11,11 +11,12 @@ This repository contains scripts used to manage my Paper Minecraft server hosted
 - `monitor.sh` – Logs resource usage for monitoring
 - `start.sh` – Starts the paper *.jar server (placed in ~/paper_minecraft)
 - `graceful_restart.sh` – Sends timed in-game restart warnings and gracefully stops the server
+- `plugin_versions.sh` – Gets paper jar version and plugin versions (useful for plugin upgrades)
 
 ## Notes
 
 - Server files (including start.sh) are stored in `~/paper_minecraft`
-- All other scripts are placed in home directory (~)
+- All other scripts are placed in /home directory (~)
 - Backups are stored in `~/paper_backups_duplicity`
 - Logs are saved to `server-restarts.log`
 - Designed for small servers (1–5 players) on 2 vCPU / 4GB RAM
