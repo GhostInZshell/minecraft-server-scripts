@@ -11,7 +11,7 @@ RESET="\e[0m"
 
 
 # Get latest paper jar
-PAPER_JAR=$(ls -1r paper-* | head -1)
+PAPER_JAR=$(ls -1 paper-* | sort -Vr | head -1)
 
 # Trap INT signal to stop server loop
 trap 'echo "Stopping server loop..."; exit 0' INT
