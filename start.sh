@@ -9,20 +9,25 @@ CYN="\e[36m"
 BLD="\e[1m"
 RESET="\e[0m"
 
-
 # Get latest paper jar
-PAPER_JAR=$(ls -1 paper-* | sort -Vr | head -1)
+PAPER_JAR=$(ls -1 paper-*.jar 2>/dev/null | sort -Vr | head -1)
+
+if [[ -z "$PAPER_JAR" ]]; then
+    echo -e "${RED}ERROR: No paper-*.jar found in current directory. Exiting.${RESET}"
+    exit 1
+fi
+
+echo -e "${RED}Detected JAR: $PAPER_JAR${RESET}"
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Detected JAR: $PAPER_JAR" >> server-restarts.log
 
 # Trap INT signal to stop server loop
 trap 'echo "Stopping server loop..."; exit 0' INT
-
-echo -e "${RED}Detected JAR: $PAPER_JAR${RESET}"
 
 # Allocate RAM
 TOTAL_MEM_MB=$(free -m | awk '/^Mem:/{print $2}')
 echo -e "${YLW}Total RAM Detected: $TOTAL_MEM_MB MB${RESET}" | tee -a server-restarts.log
 
-# Leave 500 MB for the OS + overhead
+# Leave 600 MB for the OS + overhead
 XMX_MB=$((TOTAL_MEM_MB - 600))
 
 # Cap XMX to avoid absurd allocations
@@ -40,31 +45,40 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') - Server started..." >> server-restarts.log
 
 # Run server loop
 while true; do
+    # Check for new paper jar
+    NEW_JAR=$(ls -1 paper-*.jar 2>/dev/null | sort -Vr | head -1)
+
+    if [[ "$NEW_JAR" != "$PAPER_JAR" ]]; then
+        echo -e "${CYN}New Paper JAR detected: ${BLD}$NEW_JAR${RESET}"
+        echo -e "${GRN}Upgrading from $PAPER_JAR → $NEW_JAR${RESET}"
+        PAPER_JAR="$NEW_JAR"
+    fi
+
     java \
-	-Xms$XMS \
-  	-Xmx$XMX \
- 	-XX:+AlwaysPreTouch \
-  	-XX:+DisableExplicitGC \
-  	-XX:+ParallelRefProcEnabled \
-  	-XX:+PerfDisableSharedMem \
-  	-XX:+UnlockExperimentalVMOptions \
-  	-XX:+UseG1GC \
-  	-XX:G1HeapRegionSize=8M \
-  	-XX:G1HeapWastePercent=5 \
-  	-XX:G1MaxNewSizePercent=35 \
-  	-XX:G1MixedGCCountTarget=4 \
-  	-XX:G1MixedGCLiveThresholdPercent=90 \
-  	-XX:G1NewSizePercent=25 \
-  	-XX:G1RSetUpdatingPauseTimePercent=5 \
-  	-XX:G1ReservePercent=20 \
-  	-XX:InitiatingHeapOccupancyPercent=15 \
-  	-XX:MaxGCPauseMillis=200 \
-  	-XX:MaxTenuringThreshold=3 \
-  	-XX:SurvivorRatio=16 \
-  	-Dusing.aikars.flags=https://mcflags.emc.gs \
-  	-Daikars.new.flags=true \
-  	-jar "$PAPER_JAR" \
-  	nogui
+        -Xms$XMS \
+        -Xmx$XMX \
+        -XX:+AlwaysPreTouch \
+        -XX:+DisableExplicitGC \
+        -XX:+ParallelRefProcEnabled \
+        -XX:+PerfDisableSharedMem \
+        -XX:+UnlockExperimentalVMOptions \
+        -XX:+UseG1GC \
+        -XX:G1HeapRegionSize=8M \
+        -XX:G1HeapWastePercent=5 \
+        -XX:G1MaxNewSizePercent=35 \
+        -XX:G1MixedGCCountTarget=4 \
+        -XX:G1MixedGCLiveThresholdPercent=90 \
+        -XX:G1NewSizePercent=25 \
+        -XX:G1RSetUpdatingPauseTimePercent=5 \
+        -XX:G1ReservePercent=20 \
+        -XX:InitiatingHeapOccupancyPercent=15 \
+        -XX:MaxGCPauseMillis=200 \
+        -XX:MaxTenuringThreshold=3 \
+        -XX:SurvivorRatio=16 \
+        -Dusing.aikars.flags=https://mcflags.emc.gs \
+        -Daikars.new.flags=true \
+        -jar "$PAPER_JAR" \
+        nogui
 
     ## Run if server stops
     echo "$(date '+%Y-%m-%d %H:%M:%S') - Server stopped." >> server-restarts.log
