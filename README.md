@@ -11,7 +11,7 @@ This repository contains scripts used to manage my Paper Minecraft server hosted
 - `monitor.sh` – Logs resource usage for monitoring
 - `start.sh` – Starts the paper *.jar server (placed in ~/paper_minecraft)
 - `graceful_restart.sh` – Sends timed in-game restart warnings and gracefully stops the server
-- `plugin_versions.sh` – Gets paper jar version and plugin versions (useful for plugin upgrades)
+- `plugin_versions.sh` – Gets paper jar version and plugin versions compares them against the latest releases on Hangar to flag which plugins are up-to-date or need updates. (useful for upgrades)
 
 ## Notes
 
