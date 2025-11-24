@@ -2,12 +2,21 @@
 
 set -euo pipefail
 
+# Colors
+YLW="\e[33m"
+GRN="\e[32m"
+RED="\e[31m"
+CYN="\e[36m"
+BLD="\e[1m"
+RESET="\e[0m"
+
+
 echo
 paper_ver=$(ps aux | grep [j]ava | grep -Eo 'paper.*jar' || true)
 echo "Paper Version: ${paper_ver:-unknown}"
 echo
 printf "%-24s %-14s %-14s %-12s\n" "Plugin" "Local" "Latest" "Status"
-echo "====================================="
+echo "==================================================================="
 
 #ls -1 ~/paper_minecraft/plugins/*.jar | rev | cut -d'/' -f1 | rev | sed -E 's/(.+)-([0-9][0-9.].*)\.jar/\1\t\2/' | column -s $'\t' -t
 
@@ -61,13 +70,13 @@ for jar in ~/paper_minecraft/plugins/*.jar; do
 	status="n/a"
 	if [[ -n "$latest" ]]; then
 	  if [[ "$ver" == "$latest" || "${ver#v}" == "${latest#v}" || "${core_ver#v}" == "${latest#v}" ]]; then
-	    status="up-to-date"
+	    status="${GRN}up-to-date${RESET}"
 	  else
-	    status="update"
+	    status="${RED}update${RESET}"
 	  fi
 	fi
 
 	# Print using the original case for name
-	printf "%-24s %-14s %-14s %-12s\n" "$name" "$ver" "${latest:-?}" "$status"
+	printf "%-24s %-14s %-14s %-12b\n" "$name" "$ver" "${latest:-?}" "$status"
 done
 shopt -u nocasematch
