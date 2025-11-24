@@ -1,6 +1,6 @@
 # Minecraft Server Scripts
 
-This repository contains scripts used to manage my Paper Minecraft server hosted on a DigitalOcean droplet running Ubuntu.
+This repository contains scripts used to manage my Paper Minecraft server hosted on a DigitalOcean droplet running Ubuntu 24.04.3 LTS.
 
 ## Scripts
 
