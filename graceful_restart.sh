@@ -6,7 +6,7 @@ PANE="$SESSION:0.0"
 
 # Function to send a command to the tmux session
 send_to_minecraft() {
-    tmux send-keys -t "SPANE" "$1" C-m
+    tmux send-keys -t "$PANE" "$1" C-m
 }
 
 # Check if session exists
