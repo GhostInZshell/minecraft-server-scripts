@@ -2,10 +2,11 @@
 ###### This file is version controlled in git ######
 
 SESSION="minecraft"
+PANE="$SESSION:0.0"
 
 # Function to send a command to the tmux session
 send_to_minecraft() {
-    tmux send-keys -t "$SESSION" "$1" C-m
+    tmux send-keys -t "SPANE" "$1" C-m
 }
 
 # Check if session exists
@@ -15,23 +16,23 @@ if ! tmux has-session -t "$SESSION" 2>/dev/null; then
 fi
 
 # Countdown broadcasts
-send_to_minecraft "broadcast §6Server will restart in 5 minutes! §lPlease find a safe spot."
+send_to_minecraft 'tellraw @a {"text":"Server will restart in 5 minutes! Please find a safe spot.","color":"gold","bold":true}'
 sleep 240  # 4 minutes
 
-send_to_minecraft "broadcast §cServer will restart in 1 minute!"
+send_to_minecraft 'tellraw @a {"text":"Server will restart in 1 minute!","color":"red","bold":true}'
 sleep 50
 
-send_to_minecraft "broadcast §4Server restarting in 10 seconds..."
+send_to_minecraft 'tellraw @a {"text":"Server restarting in 10 seconds...","color":"dark_red","bold":true}'
 sleep 5
-send_to_minecraft "broadcast §45..."
+send_to_minecraft 'tellraw @a {"text":"5...","color":"dark_red","bold":true}'
 sleep 1
-send_to_minecraft "broadcast §44..."
+send_to_minecraft 'tellraw @a {"text":"4...","color":"dark_red","bold":true}'
 sleep 1
-send_to_minecraft "broadcast §43..."
+send_to_minecraft 'tellraw @a {"text":"3...","color":"dark_red","bold":true}'
 sleep 1
-send_to_minecraft "broadcast §42..."
+send_to_minecraft 'tellraw @a {"text":"2...","color":"dark_red","bold":true}'
 sleep 1
-send_to_minecraft "broadcast §41..."
+send_to_minecraft 'tellraw @a {"text":"1...","color":"dark_red","bold":true}'
 sleep 1
 
 # Stop the server
