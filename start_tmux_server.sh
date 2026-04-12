@@ -19,6 +19,11 @@ tmux split-window -h -t "$SESSION":0.0
 tmux split-window -v -t "$SESSION":0.1
 tmux split-window -v -t "$SESSION":0.1
 
+# Resize panes
+tmux resize-pane -t "$SESSION":0.0 -x 77
+tmux resize-pane -t "$SESSION":0.1 -y 18
+tmux resize-pane -t "$SESSION":0.2 -y 18
+
 # Pane 1 (top right): monitor script
 tmux send-keys -t "$SESSION":0.1 'cd ~ && ./monitor.sh' C-m
 
