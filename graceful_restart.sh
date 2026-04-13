@@ -4,7 +4,18 @@
 SESSION="minecraft"
 PANE="$SESSION:0.0"
 
-# Function to send a command to the tmux session
+# Default countdown in minutes
+MINUTES=5
+
+# Parse flags
+while getopts "t:" opt; do
+    case $opt in
+        t) MINUTES="$OPTARG" ;;
+        *) echo "Usage: $0 [-t minutes]"; exit 1 ;;
+    esac
+done
+
+# Function to send a command to the tmux pane
 send_to_minecraft() {
     tmux send-keys -t "$PANE" "$1" C-m
 }
@@ -15,9 +26,15 @@ if ! tmux has-session -t "$SESSION" 2>/dev/null; then
     exit 1
 fi
 
+# Calculate sleep durations
+TOTAL_SECONDS=$((MINUTES * 60))
+FOUR_MIN_MARK=$((TOTAL_SECONDS - 60))
+
+echo "Graceful restart in $MINUTES minute(s)..."
+
 # Countdown broadcasts
-send_to_minecraft 'tellraw @a {"text":"Server will restart in 5 minutes! Please find a safe spot.","color":"gold","bold":true}'
-sleep 240  # 4 minutes
+send_to_minecraft "tellraw @a {\"text\":\"Server will restart in $MINUTES minute(s)! Please find a safe spot.\",\"color\":\"gold\",\"bold\":true}"
+sleep $FOUR_MIN_MARK
 
 send_to_minecraft 'tellraw @a {"text":"Server will restart in 1 minute!","color":"red","bold":true}'
 sleep 50
