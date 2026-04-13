@@ -64,8 +64,8 @@ for jar in ~/paper_minecraft/plugins/*.jar; do
 		ViaVersion)
 			latest=$(get_latest_ver_hangar "ViaVersion" "ViaVersion")
 			;;
-		ViaBackward)
-			latest=$(get_latest_ver_hanger "ViaVersion" "ViaBackwards")
+		ViaBackwards)
+			latest=$(get_latest_ver_hangar "ViaVersion" "ViaBackwards")
 			;;
 		 *)
 			latest=""
