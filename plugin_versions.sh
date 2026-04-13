@@ -28,7 +28,7 @@ get_latest_ver_hangar() {
 	-H 'accept: text/plain' 2>/dev/null || true
 }
 
-# for jar in ~/paper_minecraft/plugins/*.jar; do 
+# for jar in ~/paper_minecraft/plugins/*.jar; do
 # 	base=$(basename $jar .jar)
 # 	name=$(echo "$base" | sed -E 's/(.+)-([0-9][0-9.].*)/\1/')
 # 	ver=$(echo "$base" | sed -E 's/(.+)-([0-9][0-9.].*)/\2/')
@@ -60,6 +60,12 @@ for jar in ~/paper_minecraft/plugins/*.jar; do
 			;;
 		goodnight)
 			latest=$(get_latest_ver_hangar "Jelly-Pudding" "Goodnight")
+			;;
+		ViaVersion)
+			latest=$(get_latest_ver_hangar "ViaVersion" "ViaVersion")
+			;;
+		ViaBackward)
+			latest=$(get_latest_ver_hanger "ViaVersion" "ViaBackwards")
 			;;
 		 *)
 			latest=""
