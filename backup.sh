@@ -7,18 +7,28 @@ GRN="\e[32m"
 RED="\e[31m"
 CYN="\e[36m"
 BLD="\e[1m"
-RESET="\e[0m"
+RST="\e[0m"
+
+if ! command -v duplicity &> /dev/null; then
+    echo -e "${RED}duplicity not installed, skipping backup.${RST}"
+    exit 1
+fi
 
 SRC="$HOME/paper_minecraft"
 DEST="$HOME/paper_backups_duplicity"
 TS=$(date +'%Y-%m-%d_%H-%M-%S')
 
-echo -e "[${YLW}*${RESET}] Starting backup at $TS..."
+if [[ ! -d "$DEST" ]]; then
+    echo -e "${YLW}Backup destination $DEST not found, creating...${RESET}"
+    mkdir -p "$DEST"
+fi
+
+echo -e "${BLD}[${YLW}*${RST}${BLD}] Starting backup at $TS...${RST}"
 
 duplicity --no-encryption --progress backup "$SRC" file://"$DEST"
 
-echo -e "[${YLW}*${RESET}] Removing backups older than 90 days..."
+echo -e "${BLD}[${YLW}*${RST}${BLD}] Removing backups older than 90 days...${RST}"
 
 duplicity remove-older-than 90D --force --no-encryption --progress file://"$DEST"
 
-echo -e "[${GRN}✓${RESET}] Backup complete."
+echo -e "${BLD}[${GRN}✓${RST}] Backup complete.${RST}"
