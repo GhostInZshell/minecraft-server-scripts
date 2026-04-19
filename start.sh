@@ -7,17 +7,17 @@ GRN="\e[32m"
 RED="\e[31m"
 CYN="\e[36m"
 BLD="\e[1m"
-RESET="\e[0m"
+RST="\e[0m"
 
 # Get latest paper jar
 PAPER_JAR=$(ls -1 paper-*.jar 2>/dev/null | sort -Vr | head -1)
 
 if [[ -z "$PAPER_JAR" ]]; then
-    echo -e "${RED}ERROR: No paper-*.jar found in current directory. Exiting.${RESET}"
+    echo -e "${RED}ERROR: No paper-*.jar found in current directory. Exiting.${RST}"
     exit 1
 fi
 
-echo -e "${RED}Detected JAR: $PAPER_JAR${RESET}"
+echo -e "${RED}Detected JAR: $PAPER_JAR${RST}"
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Detected JAR: $PAPER_JAR" >> server-restarts.log
 
 # Trap INT signal to stop server loop
@@ -25,7 +25,7 @@ trap 'echo "Stopping server loop..."; exit 0' INT
 
 # Allocate RAM
 TOTAL_MEM_MB=$(free -m | awk '/^Mem:/{print $2}')
-echo -e "${YLW}Total RAM Detected: $TOTAL_MEM_MB MB${RESET}" | tee -a server-restarts.log
+echo -e "${YLW}Total RAM Detected: $TOTAL_MEM_MB MB${RST}" | tee -a server-restarts.log
 
 # Leave 600 MB for the OS + overhead
 XMX_MB=$((TOTAL_MEM_MB - 600))
@@ -43,7 +43,7 @@ fi
 XMS="512M"
 XMX="${XMX_MB}M"
 
-echo -e "${GRN}Allocating: Min $XMS, ${RED}Max $XMX"${RESET} | tee -a server-restarts.log
+echo -e "${GRN}Allocating: Min $XMS, ${RED}Max $XMX"${RST} | tee -a server-restarts.log
 
 # Log server start
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Server started..." >> server-restarts.log
@@ -54,8 +54,8 @@ while true; do
     NEW_JAR=$(ls -1 paper-*.jar 2>/dev/null | sort -Vr | head -1)
 
     if [[ "$NEW_JAR" != "$PAPER_JAR" ]]; then
-        echo -e "${CYN}New Paper JAR detected: ${BLD}$NEW_JAR${RESET}"
-        echo -e "${GRN}Upgrading from $PAPER_JAR → $NEW_JAR${RESET}"
+        echo -e "${CYN}New Paper JAR detected: ${BLD}$NEW_JAR${RST}"
+        echo -e "${GRN}Upgrading from $PAPER_JAR → $NEW_JAR${RST}"
         PAPER_JAR="$NEW_JAR"
     fi
 
@@ -103,10 +103,10 @@ while true; do
             echo "Running backup script..."
             ~/backup.sh
         else
-            echo -e "${RED}backup.sh not found, skipping.${RESET}"
+            echo -e "${RED}backup.sh not found, skipping.${RST}"
         fi
     else
-        echo -e "${YLW}Skipping backup.${RESET}"
+        echo -e "${YLW}Skipping backup.${RST}"
     fi
 
     # Log server restart
