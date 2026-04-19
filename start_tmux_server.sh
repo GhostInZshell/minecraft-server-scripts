@@ -25,10 +25,10 @@ tmux resize-pane -t "$SESSION":0.1 -y 18
 tmux resize-pane -t "$SESSION":0.2 -y 18
 
 # Pane 1 (top right): monitor script
-tmux send-keys -t "$SESSION":0.1 'cd ~ && ./monitor.sh' C-m
+tmux send-keys -t "$SESSION":0.1 'cd ~ && ./minecraft_scripts/monitor.sh' C-m
 
 # Pane 2 (middle right): join notifier
-tmux send-keys -t "$SESSION":0.2 'cd ~ && ./join_notifier.sh' C-m
+tmux send-keys -t "$SESSION":0.2 'cd ~ && ./minecraft_scripts/join_notifier.sh' C-m
 
 # Pane 3 (bottom right): leave empty
 # (optional: you could run a log tail, shell, or htop here)
