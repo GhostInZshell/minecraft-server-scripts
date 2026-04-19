@@ -8,7 +8,7 @@ GRN="\e[32m"
 RED="\e[31m"
 CYN="\e[36m"
 BLD="\e[1m"
-RESET="\e[0m"
+RST="\e[0m"
 
 
 echo
@@ -76,9 +76,9 @@ for jar in ~/paper_minecraft/plugins/*.jar; do
 	status="n/a"
 	if [[ -n "$latest" ]]; then
 	  if [[ "$ver" == "$latest" || "${ver#v}" == "${latest#v}" || "${core_ver#v}" == "${latest#v}" ]]; then
-	    status="${GRN}up-to-date${RESET}"
+	    status="${GRN}up-to-date${RST}"
 	  else
-	    status="${RED}update${RESET}"
+	    status="${RED}update${RST}"
 	  fi
 	fi
 
