@@ -30,9 +30,14 @@ echo -e "${YLW}Total RAM Detected: $TOTAL_MEM_MB MB${RESET}" | tee -a server-res
 # Leave 600 MB for the OS + overhead
 XMX_MB=$((TOTAL_MEM_MB - 600))
 
-# Cap XMX to avoid absurd allocations
+# Floor to ensure minimum
 if [ "$XMX_MB" -lt 512 ]; then
   XMX_MB=512
+fi
+
+# Cap XMX to avoid absurd allocations
+if [ "$XMX_MB" -gt 8192 ]; then
+  XMX_MB=8192
 fi
 
 XMS="512M"
@@ -94,8 +99,12 @@ while true; do
 
     # Run backup if user wants to
     if [[ "$run_backup" =~ ^[yY]$ ]]; then
-        echo "Running backup script..."
-        ~/backup.sh
+        if [[ -f ~/backup.sh ]]; then
+            echo "Running backup script..."
+            ~/backup.sh
+        else
+            echo -e "${RED}backup.sh not found, skipping.${RESET}"
+        fi
     else
         echo -e "${YLW}Skipping backup.${RESET}"
     fi
