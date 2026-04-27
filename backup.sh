@@ -10,7 +10,7 @@ BLD="\e[1m"
 RST="\e[0m"
 
 if ! command -v duplicity &> /dev/null; then
-    echo -e "${RED}duplicity not installed, skipping backup.${RST}"
+    echo -e "${BLD}${RED}duplicity not installed, skipping backup.${RST}"
     exit 1
 fi
 
@@ -19,16 +19,16 @@ DEST="$HOME/paper_backups_duplicity"
 TS=$(date +'%Y-%m-%d_%H-%M-%S')
 
 if [[ ! -d "$DEST" ]]; then
-    echo -e "${YLW}Backup destination $DEST not found, creating...${RESET}"
+    echo -e "${BLD}${YLW}Backup destination $DEST not found, creating...${RST}"
     mkdir -p "$DEST"
 fi
 
-echo -e "${BLD}[${YLW}*${RST}${BLD}] Starting backup at $TS...${RST}"
+echo -e "${BLD}${CYN}[${YLW}*${CYN}] Starting backup at $TS...${RST}"
 
-duplicity --no-encryption --progress backup "$SRC" file://"$DEST"
+duplicity --no-encryption --progress --allow-source-mismatch "$SRC" file://"$DEST"
 
-echo -e "${BLD}[${YLW}*${RST}${BLD}] Removing backups older than 90 days...${RST}"
+echo -e "${BLD}${CYN}[${YLW}*${CYN}] Removing backups older than 90 days...${RST}"
 
-duplicity remove-older-than 90D --force --no-encryption --progress file://"$DEST"
+duplicity remove-older-than 90D --force --no-encryption --progress --allow-source-mismatch file://"$DEST"
 
-echo -e "${BLD}[${GRN}✓${RST}] Backup complete.${RST}"
+echo -e "${BLD}${CYN}[${GRN}✓${CYN}] Backup complete.${RST}"
