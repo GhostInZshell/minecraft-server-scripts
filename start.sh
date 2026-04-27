@@ -13,19 +13,21 @@ RST="\e[0m"
 PAPER_JAR=$(ls -1 paper-*.jar 2>/dev/null | sort -Vr | head -1)
 
 if [[ -z "$PAPER_JAR" ]]; then
-    echo -e "${RED}ERROR: No paper-*.jar found in current directory. Exiting.${RST}"
+    echo -e "${RED}[x] ERROR: No paper-*.jar found in current directory. Exiting.${RST}"
     exit 1
 fi
 
-echo -e "${RED}Detected JAR: $PAPER_JAR${RST}"
+echo -e "${BLD}Detected JAR: ${RED}$PAPER_JAR${RST}"
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Detected JAR: $PAPER_JAR" >> server-restarts.log
 
+sleep 2
+
 # Trap INT signal to stop server loop
-trap 'echo "Stopping server loop..."; exit 0' INT
+trap 'echo "[*] Stopping server loop..."; exit 0' INT
 
 # Allocate RAM
 TOTAL_MEM_MB=$(free -m | awk '/^Mem:/{print $2}')
-echo -e "${YLW}Total RAM Detected: $TOTAL_MEM_MB MB${RST}" | tee -a server-restarts.log
+echo -e "${BLD}[i] Total RAM Detected: $TOTAL_MEM_MB MB${RST}" | tee -a server-restarts.log
 
 # Leave 600 MB for the OS + overhead
 XMX_MB=$((TOTAL_MEM_MB - 600))
@@ -43,7 +45,7 @@ fi
 XMS="512M"
 XMX="${XMX_MB}M"
 
-echo -e "${GRN}Allocating: Min $XMS, ${RED}Max $XMX"${RST} | tee -a server-restarts.log
+echo -e "${BLD}[*] Allocating: Min $XMS, ${RED}Max $XMX"${RST} | tee -a server-restarts.log
 
 # Log server start
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Server started..." >> server-restarts.log
@@ -54,8 +56,8 @@ while true; do
     NEW_JAR=$(ls -1 paper-*.jar 2>/dev/null | sort -Vr | head -1)
 
     if [[ "$NEW_JAR" != "$PAPER_JAR" ]]; then
-        echo -e "${CYN}New Paper JAR detected: ${BLD}$NEW_JAR${RST}"
-        echo -e "${GRN}Upgrading from $PAPER_JAR → $NEW_JAR${RST}"
+        echo -e "${CYN}[!] New Paper JAR detected: ${BLD}$NEW_JAR${RST}"
+        echo -e "${GRN}[^] Upgrading from $PAPER_JAR → $NEW_JAR${RST}"
         PAPER_JAR="$NEW_JAR"
     fi
 
@@ -92,27 +94,27 @@ while true; do
     echo "Checking disk space before backup..."
     df -h /
 
-    read -t 10 -rp "Do you want to run a full backup before restarting? (Y/n) " run_backup
+    read -t 10 -rp "[?] Do you want to run a full backup before restarting? (Y/n) " run_backup
 
     # Default to 'y' if no input (or if user just hits enter)
     run_backup=${run_backup:-y}
 
     # Run backup if user wants to
     if [[ "$run_backup" =~ ^[yY]$ ]]; then
-        if [[ -f ~/backup.sh ]]; then
-            echo "Running backup script..."
-            ~/backup.sh
+        if [[ -f ~/minecraft_scripts/backup.sh ]]; then
+            echo -e "${BLD}[>] Running backup script...${RST}"
+            ~/minecraft_scripts/backup.sh
         else
-            echo -e "${RED}backup.sh not found, skipping.${RST}"
+            echo -e "${RED}[!] backup.sh not found, skipping.${RST}"
         fi
     else
-        echo -e "${YLW}Skipping backup.${RST}"
+        echo -e "${YLW}[*] Skipping backup.${RST}"
     fi
 
     # Log server restart
     echo "$(date '+%Y-%m-%d %H:%M:%S') - Server restarting..." >> server-restarts.log
     for i in {10..1}; do
-        echo -ne "Server restarting in $i second(s)... Press CTRL + C to cancel.   \r"
+        echo -ne "${BLD}[i] Server restarting in $i second(s)... Press CTRL + C to cancel.   \r${RST}"
         sleep 1
     done
     echo
