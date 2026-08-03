@@ -36,5 +36,7 @@ tmux send-keys -t "$SESSION":0.2 'cd ~ && ./minecraft_scripts/join_notifier.sh' 
 # Focus left pane (optional)
 tmux select-pane -t "$SESSION":0.0
 
-# (Optional) Attach to the session automatically
-tmux attach-session -t "$SESSION"
+# Attach to the session if manually ran from terminal
+if [ -t 1 ]; then
+    tmux attach-session -t "$SESSION"
+fi
