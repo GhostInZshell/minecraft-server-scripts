@@ -42,7 +42,7 @@ for jar in ~/paper_minecraft/plugins/*.jar; do
 	name=$(sed -E 's/(.+)-([0-9].*)/\1/' <<<"$base")
 	ver=$(sed -E 's/(.+)-([0-9].*)/\2/' <<<"$base")
 	core_ver="${ver%%-*}"   # 5.13-paper -> 5.13
-
+	#echo "$core_ver" # debug
 	latest=""
 
 	case "$name" in
@@ -67,6 +67,18 @@ for jar in ~/paper_minecraft/plugins/*.jar; do
 		ViaBackwards)
 			latest=$(get_latest_ver_hangar "ViaVersion" "ViaBackwards")
 			;;
+		multiverse-core)
+			latest=$(get_latest_ver_hangar "Multiverse" "Multiverse-Core")
+			;;
+		multiverse-inventories)
+			latest=$(get_latest_ver_hangar "Multiverse" "Multiverse-Inventories")
+			;;
+		multiverse-portals)
+			latest=$(get_latest_ver_hangar "Multiverse" "Multiverse-Portals")
+			;;
+		CoreProtect-CE)
+			latest=$(get_latest_ver_hangar "CORE" "CoreProtect")
+			;;
 		 *)
 			latest=""
 			;;
@@ -77,6 +89,8 @@ for jar in ~/paper_minecraft/plugins/*.jar; do
 	if [[ -n "$latest" ]]; then
 	  if [[ "$ver" == "$latest" || "${ver#v}" == "${latest#v}" || "${core_ver#v}" == "${latest#v}" ]]; then
 	    status="${GRN}up-to-date${RST}"
+	  elif echo "$ver" | grep -q dev; then
+	  	status="${CYN}newer-dev${RST}"
 	  else
 	    status="${RED}update${RST}"
 	  fi
